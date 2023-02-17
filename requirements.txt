@@ -1,2 +1,0 @@
-// For PCB footprints, STandard KiCAD library + esp footprints from 
-// https://github.com/jdunmire/kicad-ESP8266
