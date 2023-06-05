@@ -3,7 +3,6 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WiFiMulti.h> 
-#include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
 
 ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti class, called 'wifiMulti'
@@ -14,8 +13,7 @@ int machine_state = 0;
 
 const char* ssid = "FAQ";
 const char* password = "244466666";
-const char* dname = "station0";
-IPAddress local_IP(192, 168, 0, 72);
+IPAddress local_IP(192, 168, 0, 71);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 0, 0);
  
@@ -64,12 +62,6 @@ void setup(void){
   Serial.print("IP address:\t");
   Serial.println(WiFi.localIP());           // Send the IP address of the ESP8266 to the computer
 
-  if (MDNS.begin(dname)) {              // Start the mDNS responder for esp8266.local
-    Serial.println("mDNS responder started");
-  } else {
-    Serial.println("Error setting up MDNS responder!");
-  }
-
   server.on("/", HTTP_GET, handleRoot);     // Call the 'handleRoot' function when a client requests URI "/"
   server.on("/REF", HTTP_POST, handleREF);  // Call the 'handleREF' function when a POST request is made to URI "/REF"
   server.on("/RESET", HTTP_POST, handleRESET);
@@ -81,7 +73,6 @@ void setup(void){
 
 void loop(void){
   server.handleClient();                    // Listen for HTTP requests from clients
-  MDNS.update();
   sensorValue = analogRead(analogInPin);
   butt_num = which_button(sensorValue);
   if(butt_num>=0)
@@ -91,6 +82,7 @@ void loop(void){
   Serial.print("\tMachine State: ");
   Serial.print(machine_state);
   Serial.print("\n");
+  
   delay(50);
 }
 
@@ -98,7 +90,7 @@ void handleRoot() {                         // When URI / is requested, send a w
   String response = "Invalid State";
   response = "<form action=\"/REF\" method=\"POST\"> <input type=\"submit\" value=\"Refresh \"> </form> ";
   response = response + "<form action=\"/RESET\" method=\"POST\"> <input type=\"submit\" value=\"Reset \"> </form>" ;
-  response = response + String(machine_state) + String(sensorValue);
+  response = response + String(sensorValue) + "!" + String(machine_state) + "!";
   server.send(200, "text/html", response);
 }
 
@@ -171,5 +163,5 @@ void if_reset(void)
   }
   else
       digitalWrite(choice_pin, LOW);
-
+  delay(50) ;
 }
