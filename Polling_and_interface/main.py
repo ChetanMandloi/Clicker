@@ -3,7 +3,7 @@ from collections import Counter
 import matplotlib.pyplot as plt
 import time
 start_time = time.time()
-num_stations = 2
+num_stations = 47
 station_start_ip4 = 70
 station_ip_prefix = "http://192.168.0."
 
