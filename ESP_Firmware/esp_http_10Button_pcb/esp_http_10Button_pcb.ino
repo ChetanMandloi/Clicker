@@ -13,7 +13,8 @@ int machine_state = 0;
 
 const char* ssid = "FAQ";
 const char* password = "244466666";
-IPAddress local_IP(192, 168, 0, 71);
+const int wid = 71;
+IPAddress local_IP(192, 168, 0, wid);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 0, 0);
  
@@ -90,7 +91,7 @@ void handleRoot() {                         // When URI / is requested, send a w
   String response = "Invalid State";
   response = "<form action=\"/REF\" method=\"POST\"> <input type=\"submit\" value=\"Refresh \"> </form> ";
   response = response + "<form action=\"/RESET\" method=\"POST\"> <input type=\"submit\" value=\"Reset \"> </form>" ;
-  response = response + String(sensorValue) + "!" + String(machine_state) + "!";
+  response = response + String(sensorValue)+"!"+ String(wid) + "!" + String(machine_state) + "!";
   server.send(200, "text/html", response);
 }
 
