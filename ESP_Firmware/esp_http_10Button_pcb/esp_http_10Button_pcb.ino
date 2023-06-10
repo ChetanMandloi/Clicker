@@ -13,7 +13,7 @@ int machine_state = 0;
 
 const char* ssid = "FAQ";
 const char* password = "244466666";
-const int wid = 71;
+const int wid = 80;
 IPAddress local_IP(192, 168, 0, wid);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 0, 0);
