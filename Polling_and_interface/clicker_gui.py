@@ -176,6 +176,7 @@ class MyWindow:
             self.atten_list.append(int(i.split("!")[-3]))
         print(self.response_list, self.atten_list)
         tally =  {n:self.response_list.count(n) for n in self.option_list}
+
         #tally = Counter(self.response_list)
         print(tally.keys(), tally.values())
         #srt_tally = dict(sorted(tally.items(), key=lambda item: item[1], reverse=True))
@@ -184,6 +185,9 @@ class MyWindow:
         self.subplot1.clear()
         self.subplot2.clear()
         self.subplot1.bar(srt_tally.keys(), srt_tally.values(), color=self.color_list)
+        for i, v in enumerate(srt_tally.values()):
+            print(i,v)
+            self.subplot1.text(i-0.1, v, str(v), color='black', fontweight='bold')
         self.subplot1.set_xticks(self.option_list)
         self.subplot1.yaxis.set_major_locator(MaxNLocator(integer=True))
         # self.subplot2.set_xlim(self.t_0, self.t_1)
