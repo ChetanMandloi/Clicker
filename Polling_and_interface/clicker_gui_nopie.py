@@ -33,7 +33,7 @@ async def get_async(url):
     :param url: list of urls
     :return: list of responses from each of the urls on a get request
     """
-    timeouts = (1, 1)
+    timeouts = (1.2, 1.2)
     async with httpx.AsyncClient() as client:
         return await client.get(url, timeout=timeouts)
 
@@ -43,7 +43,7 @@ async def post_async(url):
     :param url: list of urls
     :return: list of responses from each of the urls on a post request
     """
-    timeouts = (1, 1)
+    timeouts = (1.2, 1.2)
     async with httpx.AsyncClient() as client:
         return await client.post(url, data={'key': 'value'}, timeout=timeouts)
 
