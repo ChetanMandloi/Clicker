@@ -1,8 +1,8 @@
 # -----------------------------------------------------
 # Clicker GUI
 # Provides a Graphical User Interface for the clicker
-# that polls modules parallely and plots bar graph  &
-# pie chart of the obtained data and lets us reset
+# that polls modules parallely and plots bar graph
+# of the obtained data and lets us reset
 # -----------------------------------------------------
 # Chetan Mandloi
 # chetan.mandloi@live.com
@@ -87,6 +87,7 @@ def generate_http_list(num_stations, station_ip_prefix, station_start_ip4, subd=
     httplist = []
     for i in range(num_stations):
         httplist.append(station_ip_prefix + str(i + station_start_ip4) + subd)
+    print("global httplist: ", httplist)
 
 class MyWindow:
     def __init__(self, win):
@@ -137,16 +138,20 @@ class MyWindow:
         self.rbtn.bind('<Button-2>', self.reset)
         self.rbtn.place(x=xt0, y=y0 + 160)
 
-        self.figure = Figure(figsize=(10, 3), dpi=100)
+        # ---- Fourth label and entry -------
+        self.lbl3 = Label(win, text='Start IP address')
+        self.lbl3.config(font=('Arial', 10))
+        self.lbl3.place(x=x0, y=y0 + 80)
+        self.t3 = Entry()
+        self.t3.place(x=xt0, y=y0 + 80)
+        self.t3.insert(END, str(self.station_start_ip4))
+        self.station_start_ip4 = int(self.t3.get())
+
+        self.figure = Figure(figsize=(10.5, 3), dpi=100)
 
         # ---- subplot 1 -------
-        self.subplot1 = self.figure.add_subplot(211)
+        self.subplot1 = self.figure.add_subplot(111)
         # self.subplot1.set_xlim(self.t_0, self.t_1)
-
-        # ---- subplot 2 -------
-        self.subplot2 = self.figure.add_subplot(212)
-        #self.subplot2.set_xlabel('$Time(s)$', fontsize=11)
-        # self.subplot2.set_xlim(self.t_0, self.t_1)
 
         # ---- Show the plot-------
         self.plots = FigureCanvasTkAgg(self.figure, win)
@@ -183,32 +188,18 @@ class MyWindow:
         srt_tally = OrderedDict(sorted(tally.items()))
 
         self.subplot1.clear()
-        self.subplot2.clear()
         self.subplot1.bar(srt_tally.keys(), srt_tally.values(), color=self.color_list)
         for i, v in enumerate(srt_tally.values()):
-            print(i,v)
-            self.subplot1.text(i-0.1, v, str(v), color='black', fontweight='bold')
+            #print(i,v)
+            self.subplot1.text(i-0.1, v, str(v), color='black', fontweight='bold', fontsize=18)
         self.subplot1.set_xticks(self.option_list)
         self.subplot1.yaxis.set_major_locator(MaxNLocator(integer=True))
-        # self.subplot2.set_xlim(self.t_0, self.t_1)
-        try:
-            self.wedges, self.texts, self.autotexts = self.subplot2.pie(srt_tally.values(), labels=srt_tally.keys(), colors=self.color_list
-                          , autopct='%1.1f%%'
-                          , wedgeprops={'linewidth': 2.0, 'edgecolor': 'white'}, textprops={'size': 'small'})
-            threshold = 1
-            for label, pct_label in zip(self.texts, self.autotexts):
-                pct_value = pct_label.get_text().rstrip('%')
-                if float(pct_value) < threshold:
-                    label.set_text('')
-                    pct_label.set_text('')
-        except ValueError:
-            pass
         self.response_list = []
         self.plots.draw()
 
     def reset(self):
         self.up_ent_vals()
-        print("here")
+        #print("here")
         global datalist
         generate_http_list(self.num_stations, self.station_ip_prefix, self.station_start_ip4, '/RESET')
         # print(httplist)

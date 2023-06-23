@@ -13,7 +13,7 @@ int machine_state = 0;
 
 const char* ssid = "FAQ";
 const char* password = "244466666";
-const int wid = 80;
+const int wid = 116;
 IPAddress local_IP(192, 168, 0, wid);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 0, 0);
@@ -128,15 +128,15 @@ int which_button(int s_val)
    *     9    O 1O
    */
   Serial.print(s_val);
-  if(s_val > 940)
+  if(s_val > 920)
     return 2; //9
-  else if(s_val > 850)
+  else if(s_val > 830)
     return 4; //8
-  else if(s_val > 750)
+  else if(s_val > 730)
     return 6; //7
-  else if(s_val > 650)
+  else if(s_val > 630)
     return 8; //6
-  else if(s_val > 550)
+  else if(s_val > 530)
     return 10; //5
   else if(s_val > 460)
     return 9; //4
