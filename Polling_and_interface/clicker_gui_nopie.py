@@ -33,8 +33,9 @@ async def get_async(url):
     :param url: list of urls
     :return: list of responses from each of the urls on a get request
     """
+    timeouts = (1, 1)
     async with httpx.AsyncClient() as client:
-        return await client.get(url)
+        return await client.get(url, timeout=timeouts)
 
 async def post_async(url):
     """
@@ -42,8 +43,9 @@ async def post_async(url):
     :param url: list of urls
     :return: list of responses from each of the urls on a post request
     """
+    timeouts = (1, 1)
     async with httpx.AsyncClient() as client:
-        return await client.post(url, data={'key': 'value'})
+        return await client.post(url, data={'key': 'value'}, timeout=timeouts)
 
 async def launchp():
     """
@@ -92,9 +94,9 @@ def generate_http_list(num_stations, station_ip_prefix, station_start_ip4, subd=
 class MyWindow:
     def __init__(self, win):
         x0, xt0, y0 = 10, 120, 50
-        self.num_stations = 3
+        self.num_stations = 45
         self.station_ip_prefix = "http://192.168.0."
-        self.station_start_ip4 = 100
+        self.station_start_ip4 = 70
         self.httplist = []
         self.response_list = []
         self.atten_list = []
